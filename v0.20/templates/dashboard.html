@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome to the Dashboard</h2>
+    <ul>
+        <li><a href="{{ url_for('user_management') }}">User Management</a></li>
+        {% if current_user.admin %}
+            <li><a href="{{ url_for('signup') }}">Create New User (Admin Only)</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        <li><a href="{{ url_for('reset_password') }}">Reset Password</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</body>
+</html>
