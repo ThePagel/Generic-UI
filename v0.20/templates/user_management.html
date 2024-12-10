@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .action-buttons {
+            display: flex;
+            gap: 10px;  /* Adjust the gap between buttons as needed */
+        }
+    </style>
 </head>
 <body>
     <h2>User Management</h2>
@@ -18,7 +24,7 @@
         <tr>
             <td>{{ user.username }}</td>
             <td>{{ user.admin }}</td>
-            <td>
+            <td class="action-buttons">
                 <a href="{{ url_for('edit_user', user_id=user.id) }}">Edit</a>
                 <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
                     {{ form.hidden_tag() }}
