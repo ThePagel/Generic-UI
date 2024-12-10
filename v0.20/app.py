@@ -126,10 +126,14 @@ def delete_user(user_id):
     form = SimpleForm()
     if current_user.admin:
         user = User.query.get_or_404(user_id)
-        db.session.delete(user)
-        db.session.commit()
-        flash('User deleted successfully.')
-        return redirect(url_for('user_management'))
+        if user.id == current_user.id:
+            flash('You cannot delete your own account.')
+            return redirect(url_for('user_management'))
+        else:
+            db.session.delete(user)
+            db.session.commit()
+            flash('User deleted successfully.')
+            return redirect(url_for('user_management'))
     else:
         flash('Access denied. Admins only.')
         return redirect(url_for('dashboard'))
