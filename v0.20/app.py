@@ -29,7 +29,11 @@ class SimpleForm(FlaskForm):
 
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    admin_exists = User.query.filter_by(admin=True).first()
+    if admin_exists:
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('setup'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -49,7 +53,7 @@ def login():
 @app.route('/setup', methods=['GET', 'POST'])
 def setup():
     form = SimpleForm()
-    if User.query.first():
+    if User.query.filter_by(admin=True).first():
         return redirect(url_for('login'))
     if request.method == 'POST' and form.validate_on_submit():
         username = request.form.get('username')
