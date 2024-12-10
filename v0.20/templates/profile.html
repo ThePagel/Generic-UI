@@ -14,6 +14,9 @@
         <input type="text" id="username" name="username" value="{{ current_user.username }}" required><br>
         <button type="submit">Update Profile</button>
     </form>
+    <ul>
+        <li><a href="{{ url_for('reset_password') }}">Reset Password</a></li>
+    </ul>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul>
