@@ -7,4 +7,25 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Sign Up</h2[_{{{CITATION{{{_1{](https://github.com/HichamBerbache/blog/tree/e1d1dd841e46be58f41af6950a1d8e8361c3199d/blog%2Froutes.py)[_{{{CITATION{{{_2{](https://github.com/Moriarty-jim/todo-flask/tree/884665378ca8cf583772758957b7574031fe47a0/todo%2Fviews.py)[_{{{CITATION{{{_3{](https://github.com/bgoonz/web-dev-utils-package/tree/65a7b21c0444f4cbeb3c313a750fb43560047e77/personal-utilities%2Fcopy-2-clip%2FREADME.md)[_{{{CITATION{{{_4{](https://github.com/wiindha/PraktikumWebD/tree/8e0aa794f31847c2ad46b081a1427cafec12f6fe/Tugas12%2FMasuk.php)[_{{{CITATION{{{_5{](https://github.com/MAnzZ95/php_login_and_registration/tree/80daf2203ad5a426b01ce1bdd15a89e6577b788d/login.php)[_{{{CITATION{{{_6{](https://github.com/deaamartya/kaadaftar/tree/afdd20e5788e2ac9335add5bbf38467ca841cc3e/resources%2Fviews%2Fauth%2Flogin.blade.php)[_{{{CITATION{{{_7{](https://github.com/Igorjonja/web-site-shopping-online/tree/3b1c025ad204697299205507e4202748fa280357/new_client.php)[_{{{CITATION{{{_8{](https://github.com/alexunder193/html_css_js_php/tree/b3d1a23faf433f5e4872a051c1309aafa8644fb7/registration%2Fregistration_form.php)[_{{{CITATION{{{_9{](https://github.com/Riggd/progenso/tree/666f990b93a0382079d1467630ea2ea4c4340884/app%2Ftemplates%2Fbase.php)[_{{{CITATION{{{_10{](https://github.com/kevinsvni/jobportal_php/tree/493efef6ee1e9d9192c12378ad26ed50369f8e04/authenticate%2Fsignup.php)[_{{{CITATION{{{_11{](https://github.com/alvinferd/Pululululu/tree/d31d371159f433085e328a852bcf234820ab72dd/Silivent%2FsignUp.php)
+    <h2>Sign Up</h2>
+    <form method="POST" action="{{ url_for('signup') }}">
+        {{ form.hidden_tag() }}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <label for="admin">Admin:</label>
+        <input type="checkbox" id="admin" name="admin"><br>
+        <button type="submit">Sign Up</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
