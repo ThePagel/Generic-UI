@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, request, ses
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
-from flask_wtf import CSRFProtect
+from flask_wtf import CSRFProtect, FlaskForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -24,13 +24,17 @@ class User(db.Model, UserMixin):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+class SimpleForm(FlaskForm):
+    pass
+
 @app.route('/')
 def index():
     return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
+    form = SimpleForm()
+    if request.method == 'POST' and form.validate_on_submit():
         username = request.form.get('username')
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
@@ -40,13 +44,14 @@ def login():
         else:
             flash('Login failed. Check your username and password.')
             app.logger.info(f'Failed login attempt for user: {username}')
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 @app.route('/setup', methods=['GET', 'POST'])
 def setup():
+    form = SimpleForm()
     if User.query.first():
         return redirect(url_for('login'))
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         username = request.form.get('username')
         password = request.form.get('password')
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -55,13 +60,14 @@ def setup():
         db.session.commit()
         flash('Admin account created successfully.')
         return redirect(url_for('login'))
-    return render_template('setup.html')
+    return render_template('setup.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])
 @login_required
 def signup():
+    form = SimpleForm()
     if current_user.admin:  # Only admin can create new users
-        if request.method == 'POST':
+        if request.method == 'POST' and form.validate_on_submit():
             username = request.form.get('username')
             password = request.form.get('password')
             admin = request.form.get('admin', False)
@@ -71,7 +77,7 @@ def signup():
             db.session.commit()
             flash('User created successfully.')
             return redirect(url_for('dashboard'))
-        return render_template('signup.html')
+        return render_template('signup.html', form=form)
     else:
         flash('Only admins can create new users.')
         return redirect(url_for('dashboard'))
@@ -100,15 +106,16 @@ def user_management():
 @app.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def edit_user(user_id):
+    form = SimpleForm()
     if current_user.admin:
         user = User.query.get_or_404(user_id)
-        if request.method == 'POST':
+        if request.method == 'POST' and form.validate_on_submit():
             user.username = request.form['username']
             user.admin = 'admin' in request.form
             db.session.commit()
             flash('User updated successfully.')
             return redirect(url_for('user_management'))
-        return render_template('edit_user.html', user=user)
+        return render_template('edit_user.html', user=user, form=form)
     else:
         flash('Access denied. Admins only.')
         return redirect(url_for('dashboard'))
@@ -116,6 +123,7 @@ def edit_user(user_id):
 @app.route('/delete_user/<int:user_id>', methods=['POST'])
 @login_required
 def delete_user(user_id):
+    form = SimpleForm()
     if current_user.admin:
         user = User.query.get_or_404(user_id)
         db.session.delete(user)
@@ -129,16 +137,18 @@ def delete_user(user_id):
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    if request.method == 'POST':
+    form = SimpleForm()
+    if request.method == 'POST' and form.validate_on_submit():
         current_user.username = request.form['username']
         db.session.commit()
         flash('Profile updated successfully.')
-    return render_template('profile.html')
+    return render_template('profile.html', form=form)
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 @login_required
 def reset_password():
-    if request.method == 'POST':
+    form = SimpleForm()
+    if request.method == 'POST' and form.validate_on_submit():
         current_password = request.form['current_password']
         new_password = request.form['new_password']
         if bcrypt.check_password_hash(current_user.password, current_password):
@@ -149,7 +159,7 @@ def reset_password():
         else:
             flash('Current password is incorrect.')
             app.logger.warning(f'Failed password reset attempt for user: {current_user.username}')
-    return render_template('reset_password.html')
+    return render_template('reset_password.html', form=form)
 
 if __name__ == '__main__':
     with app.app_context():
