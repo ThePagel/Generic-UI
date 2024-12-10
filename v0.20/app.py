@@ -96,9 +96,10 @@ def dashboard():
 @app.route('/user_management')
 @login_required
 def user_management():
+    form = SimpleForm()
     if current_user.admin:
         users = User.query.all()
-        return render_template('user_management.html', users=users)
+        return render_template('user_management.html', users=users, form=form)
     else:
         flash('Access denied. Admins only.')
         return redirect(url_for('dashboard'))
