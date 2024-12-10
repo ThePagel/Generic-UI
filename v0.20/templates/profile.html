@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h2>Profile</h2>
     <form method="POST" action="{{ url_for('profile') }}">
+        {{ form.hidden_tag() }}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" value="{{ current_user.username }}" required><br>
         <button type="submit">Update Profile</button>
     </form>
     {% with messages = get_flashed_messages() %}
-[_{{{CITATION{{{_1{](https://github.com/bannani/Project/tree/7bb082c3a7216b52ae7988247cbafd0647bca280/Full%20Stack%20web%20engineer%2Fapp.py)[_{{{CITATION{{{_2{](https://github.com/irchorn/IS211_Assignment12/tree/90efc03e28d7d738668421fedb00e467a143a916/hw12_app.py)[_{{{CITATION{{{_3{](https://github.com/mikekitckchan/calendar/tree/0d55b1751806c05a13ffe48601a764bb69506f06/app.py)[_{{{CITATION{{{_4{](https://github.com/RAihan0000/Hospital-Management/tree/39eeccd3fe3fdf7fbe7cdc7b8725e1a05e6017cf/app.py)[_{{{CITATION{{{_5{](https://github.com/frwu93/TeachOverflow/tree/b4477839cf3f79af55da1992a6be93a3ae1be253/app.py)[_{{{CITATION{{{_6{](https://github.com/codePerfect7/Social-Media-Website/tree/32aa2d669729610b75b02d105122ffd36a61c9f9/website%2Fviews.py)[_{{{CITATION{{{_7{](https://github.com/ishikavyas18/FlaskApplication/tree/04534160f04fb9df296469e0b8b77e8193238104/main.py)[_{{{CITATION{{{_8{](https://github.com/Moriarty-jim/todo-flask/tree/884665378ca8cf583772758957b7574031fe47a0/todo%2Fviews.py)[_{{{CITATION{{{_9{](https://github.com/bgoonz/web-dev-utils-package/tree/65a7b21c0444f4cbeb3c313a750fb43560047e77/personal-utilities%2Fcopy-2-clip%2FREADME.md)[_{{{CITATION{{{_10{](https://github.com/wiindha/PraktikumWebD/tree/8e0aa794f31847c2ad46b081a1427cafec12f6fe/Tugas12%2FMasuk.php)[_{{{CITATION{{{_11{](https://github.com/usepsh/pw2020_193040051/tree/c66c102896348ae099aa1d3de0933c8d718e95d6/praktikum%2FP7_PW_193040051%2Flatihan7a%2Fphp%2Flogin.php)[_{{{CITATION{{{_12{](https://github.com/guntur27/latihan-ukom/tree/db72404721f7388f35e5672e948ee6fee41b69e2/login.php)[_{{{CITATION{{{_13{](https://github.com/Igorjonja/web-site-shopping-online/tree/3b1c025ad204697299205507e4202748fa280357/new_client.php)[_{{{CITATION{{{_14{](https://github.com/alexunder193/html_css_js_php/tree/b3d1a23faf433f5e4872a051c1309aafa8644fb7/registration%2Fregistration_form.php)[_{{{CITATION{{{_15{](https://github.com/Riggd/progenso/tree/666f990b93a0382079d1467630ea2ea4c4340884/app%2Ftemplates%2Fbase.php)[_{{{CITATION{{{_16{](https://github.com/kevinsvni/jobportal_php/tree/493efef6ee1e9d9192c12378ad26ed50369f8e04/authenticate%2Fsignup.php)[_{{{CITATION{{{_17{](https://github.com/Eurus0209/COMP1041-DBI-cw2/tree/921329772312fb4ad58297c2d2efb2d130af9814/src%2Fmanager.php)[_{{{CITATION{{{_18{](https://github.com/Minhazrahik/learning-web-technologies-fall-2020-2021-sec-g/tree/d4a19f5353a1fef86cf796f444a95b221d815401/LAB_TASK_4.1_SESSION%2FProfile_dash.php)[_{{{CITATION{{{_19{](https://github.com/Inderjitsinghsaini/Week_1_Multimedia-Internet/tree/4e8b9edfb2fbc0364bc7df7f856708bcf88fddc5/admin%2Fscripts%2Findex.php)[_{{{CITATION{{{_20{](https://github.com/RobyCigar/PHP_Tutorial/tree/4bbd818b58b0b7909fb9290bd96a8e20dbf92e5b/latian.php)[_{{{CITATION{{{_21{](https://github.com/wagihessam/Login-Register/tree/f793ec362eede422f6ff5c7e92b1c83381a11f82/profile.php)
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
