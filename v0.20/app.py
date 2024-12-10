@@ -70,7 +70,7 @@ def signup():
         if request.method == 'POST' and form.validate_on_submit():
             username = request.form.get('username')
             password = request.form.get('password')
-            admin = request.form.get('admin', False)
+            admin = True if request.form.get('admin') == 'on' else False
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             new_user = User(username=username, password=hashed_password, admin=admin)
             db.session.add(new_user)
@@ -111,7 +111,7 @@ def edit_user(user_id):
         user = User.query.get_or_404(user_id)
         if request.method == 'POST' and form.validate_on_submit():
             user.username = request.form['username']
-            user.admin = 'admin' in request.form
+            user.admin = True if request.form.get('admin') == 'on' else False
             db.session.commit()
             flash('User updated successfully.')
             return redirect(url_for('user_management'))
